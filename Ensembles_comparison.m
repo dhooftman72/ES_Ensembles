@@ -26,7 +26,7 @@ for i = 1:length(EnsembleArray)
         jes = 3:(length(EnsembleArray)-1);
     end
     for j = jes
-        if j == 8 % only when i == 1
+        if j == 8 && i == 1 % only when i == 1
            AllInd = 1;
         end
         if strcmp('Model',EnsembleArray(i)) == 1 
