@@ -19,8 +19,8 @@ for validation_set = 1:1:x
 for data_set = 1:1:data_set_max
     if first ~=1
         save('parameters', 'validation_set','data_set',...
-            'make_log','single_set', 'Results','Validation_points','Model_points','data_set_max',...
-            'Supply_combine', 'People_combine', 'data_set_threshold','Weighting','Supply')
+            'make_log','Results','Validation_points','Model_points','data_set_max',...
+            'Supply_combine', 'People_combine', 'Weighting','Supply')
         save ('output_files.mat', 'output_file')
         clear all
         clear all
