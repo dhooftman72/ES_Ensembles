@@ -10,9 +10,9 @@ Best_model = dataset({'Dummy'},'Varnames','Service');
 EnsembleArray = {'Model','Model','Mean','Median','Complexity','Deviance_Scaled','Rho_Scaled','Model'};
 EnsembleArrayTxt = {'Best_Model','Models','Mean','Median','Complexity','Deviance','Rho','ModelAllInd'};
 ImprovementValues.Default.Yrho = dataset(NaN,'Varnames',(genvarname({[char(EnsembleArrayTxt(1)),'vs',char(EnsembleArrayTxt(2))]})));
-ImprovementValues.Full.Yrho = dataset(NaN,'Varnames',(genvarname({[char(EnsembleArrayTxt(length(EnsembleArray))),'vs',char(EnsembleArrayTxt(3))]})));
+ImprovementValues.Full.Yrho = dataset(NaN,'Varnames',(genvarname({[char(EnsembleArrayTxt(length(EnsembleArray))),'vs',char(EnsembleArrayTxt(8))]})));
 ImprovementValues.Default.Ydevi = dataset(NaN,'Varnames',(genvarname({[char(EnsembleArrayTxt(1)),'vs',char(EnsembleArrayTxt(2))]})));
-ImprovementValues.Full.Ydevi = dataset(NaN,'Varnames',(genvarname({[char(EnsembleArrayTxt(length(EnsembleArray))),'vs',char(EnsembleArrayTxt(3))]})));
+ImprovementValues.Full.Ydevi = dataset(NaN,'Varnames',(genvarname({[char(EnsembleArrayTxt(length(EnsembleArray))),'vs',char(EnsembleArrayTxt(8))]})));
 comparison = 1; % set array label (elevated in line 188)
 %% All comparisons
 for i = 1:length(EnsembleArray)
