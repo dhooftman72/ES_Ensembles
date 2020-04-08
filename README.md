@@ -17,4 +17,5 @@ B)	For comparing among ensembles (Figs 3 MS and Table SI1-3 & Table SI-1-4) and 
 
 C)	For creating maps of mean, median and sem per gridcell among models and hotspot and cold area calculations
 -	An example function (G_to_meanG.m ) ; running ones with model and validation sets names included can be acquired upon request
+
 Danny Hooftman, Februari-12 2020
