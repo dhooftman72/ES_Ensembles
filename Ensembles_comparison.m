@@ -2,6 +2,7 @@
 % Acuuracy vs Uncertainty regressions
 clear all
 clc
+close all
 load('Ensembles.mat') % the accuracies of models (from Willcock et al. 2019) and Ensembles & Inversed deviances per point (calculated in Makeresults.m)
 %% Preset admin
 Comparisons = dataset({'Dummy'},'Varnames',char('Comparison'));
@@ -26,7 +27,7 @@ for i = 1:length(EnsembleArray)
         jes = 3:(length(EnsembleArray)-1);
     end
     for j = jes
-        if j == 8 && i == 1 % only when i == 1
+       if j == 8 && i == 1 % only when i == 1
            AllInd = 1;
         end
         if strcmp('Model',EnsembleArray(i)) == 1 
@@ -191,42 +192,13 @@ for i = 1:length(EnsembleArray)
         comparison = comparison +1;
     end
 end
-save('Outputs','Comparisons','Deviations','ImprovementValues','Best_model', 'Original_Means');
+save('Outputs','Comparisons','Deviations','ImprovementValues','Best_model', 'Original_Means','Setnames');
 clear all
 load('Outputs.mat')
 delete('Outputs.mat')
 
 %% % Regressions of Accurcay vs Uncertainty
-Service_nots = unique(Deviations.Service,'stable');
-whichones = (1:length(Deviations.Service));%
-Points = dataset(Deviations.Service(whichones),'Varnames','Services');
-Points.SEM = Deviations.MeanStd (whichones);
-CorFac = Deviations.N(whichones);
-Points.SEM = Points.SEM./sqrt(CorFac);
-Points.Means = Deviations.Mean(whichones);
-Points.MeanLogit = log10((Points.Means./(1-Points.Means))+1);
-Points.MeanLogit(Points.MeanLogit>0.99) = 0.99;
-% Interaction model
-[~,outs,stats] = anovan(Points.MeanLogit,{Points.Services,Points.SEM},'sstype',2,...
-    'model','full','continuous', 2,'display', 'off',...
-    'varnames', {'Service','Std'});
-Points.MeanLogitCorrected =  Points.MeanLogit- stats.resid;
-Regressions.Mean = outs;
-Regressions.EffectPerES = dataset(stats.coeffs((length(stats.coeffs))-(5)),'Varnames',char(Service_nots(1)));
-for i = 5:-1:1
-    Regressions.EffectPerES.(genvarname(char(Service_nots(7-i)))) = stats.coeffs((length(stats.coeffs))-(i-1));
-end
-% Ome-way model for R2 only
-X = Points.SEM;
-Y = Points.MeanLogit;
-ds = dataset(Y,X);
-ds.Services = ordinal(Points.Services);
-mdl = LinearModel.fit(ds,' Y ~ X + Services');
-anova(mdl,'component',1);
-Regressions.Mean(1,8) = {'R2'};
-Regressions.Mean(2,8) = {mdl.Rsquared.Adjusted};
-clear outs stats Y X
+[Points,Regressions,AutoCorrelation] = PointRegression(Deviations,Setnames);
 %%
-save('Outputs','Comparisons','ImprovementValues','Best_model', 'Original_Means','Regressions','Points');
+save('Outputs','Comparisons','Best_model', 'ImprovementValues','Original_Means','Regressions','Points','AutoCorrelation','Setnames');
 clear all
-load('Outputs.mat')
