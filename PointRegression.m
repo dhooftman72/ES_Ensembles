@@ -3,7 +3,7 @@ clc
 warning off
 close all
 %load('Ensembles.mat')
-btsfact = 1;
+btsfact = 5;
 Service_nots = unique(Deviations.Service,'stable');
 whichones = (1:length(Deviations.Service));%
 Points = dataset(Deviations.Service(whichones),'Varnames','Services');
@@ -32,7 +32,6 @@ disp(str)
 [Morans_I,PValue,ZValue,~] = Morans(Deviations.Long,Deviations.Lat,1000000,Points.SEMLogit,(Size.*btsfact)); 
 AutoCorrelation = Autoset(AutoCorrelation,Size,{'OverallUncertaintyLogit'},Morans_I,PValue,ZValue,3); 
 
-
 for i = 1:1:16
     display(' ')
     display(' ')
@@ -60,11 +59,12 @@ end
 Points.Auto(:,1) = Auto;
 % Interaction model
 [~,outs,stats] = anovan(Points.Means,{Auto,Points.Services,Points.SEMLogit},'sstype',1,...
-    'model','full','continuous', [1,3],'display', 'on',...
+     'model',[1 0 0 ; 0 1 0 ; 0 0 1  ; 0 1 1],'continuous', [1,3],'display', 'on',...
     'varnames', {'AutoCorrelation','Service','Uncertainty'});
 Points.MeanCorrected =  Points.Means- stats.resid;
 Regressions.Mean = outs;
 Regressions.Stats = stats;
+
 Regressions.EffectPerES = dataset(stats.coeffs((length(stats.coeffs))-(5)),'Varnames',char(Service_nots(1)));
 for i = 5:-1:1
     Regressions.EffectPerES.(genvarname(char(Service_nots(7-i)))) = stats.coeffs((length(stats.coeffs))-(i-1));
@@ -74,20 +74,14 @@ AutoCorrelation = Autoset(AutoCorrelation,Size,{'MarginalValues'},Morans_I,PValu
 [Morans_I,PValue,ZValue,~] = Morans(Deviations.Long,Deviations.Lat,1000000,stats.resid,(Size.*btsfact));
 AutoCorrelation = Autoset(AutoCorrelation,Size,{'Residuals'},Morans_I,PValue,ZValue,21); 
 
-% Ome-way model for R2 only
-X = Points.SEMLogit;
-Y = Points.Means;
-ds = dataset(Auto);
-%ds.Auto = ;
-ds.Services = ordinal(Points.Services);
-ds.X = X;
-ds.Y = Y;
-mdl = LinearModel.fit(ds,'interactions');
-anova(mdl,'component',1);
+expect = Points.MeanCorrected;
+meanY = mean(Points.Means);
+for t = 1:1:Size
+    ssres(t) = ((expect(t)-Points.Means(t)).^2);
+    sstot(t) =  ((Points.Means(t)-meanY).^2);
+end
 Regressions.Mean(1,8) = {'R2'};
-Regressions.Mean(2,8) = {mdl.Rsquared.Adjusted};
-Regressions.mdl = mdl;
-%clear outs stats Y X
+Regressions.Mean(2,8) = {1- ((sum(ssres)) /(sum(sstot)))};
 end
 
 function AutoCorrelation = Autoset(AutoCorrelation,size,txt,Morans_I,PValue,ZValue,i)
