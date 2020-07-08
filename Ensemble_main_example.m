@@ -40,7 +40,7 @@ for data_set = 1:1:data_set_max
         people_comparator_1 = (ValdiationSet1_demand(:,1)./ValdiationSet1_pop_size(:,1));
         % independents
         if data_set == 1
-            test = [(ValdiationSet1_pop_size(:,1)./ValdiationSet1_size(:,1)),bio_comparator_1]; %i1 1km
+            test = [(ValdiationSet1_pop_size(:,1)./ValdiationSet1_size(:,1)),bio_comparator_1]; %i1 
         elseif data_set == 2
             test = [ValdiationSet1_mean_dens(:,1), people_comparator_1]; % i2
             %Model 1
@@ -51,16 +51,16 @@ for data_set = 1:1:data_set_max
             test = [(ValdiationSet1(:,2)./ValdiationSet1_size(:,1)),bio_comparator_1]; % Supply
             % Model 3
         elseif data_set == 5
-            test = [(ValdiationSet1(:,4)./ValdiationSet1_size(:,1)),bio_comparator_1]; % Supply
+            test = [(ValdiationSet1(:,3)./ValdiationSet1_size(:,1)),bio_comparator_1]; % Supply
             %Model 4
         elseif data_set == 6
-            test = [(ValdiationSet1(:,5)./ValdiationSet1_size(:,1)),bio_comparator_1]; % Supply
+            test = [(ValdiationSet1(:,4)./ValdiationSet1_size(:,1)),bio_comparator_1]; % Supply
             %Model 5
         elseif data_set == 7
-            test = [(ValdiationSet1(:,6)./ValdiationSet1_size(:,1)),bio_comparator_1]; % Supply
+            test = [(ValdiationSet1(:,5)./ValdiationSet1_size(:,1)),bio_comparator_1]; % Supply
             %Model 6
         elseif data_set == 8
-            test = [(ValdiationSet1(:,7)./ValdiationSet1_size(:,1)),bio_comparator_1]; % Supply
+            test = [(ValdiationSet1(:,6)./ValdiationSet1_size(:,1)),bio_comparator_1]; % Supply
             %Model 1
         elseif data_set == 9
             test = [(ValdiationSet1(:,1)./ValdiationSet1_pop_size(:,1)),people_comparator_1]; %People
@@ -69,16 +69,16 @@ for data_set = 1:1:data_set_max
             test = [(ValdiationSet1(:,2)./ValdiationSet1_pop_size(:,1)),people_comparator_1]; %People
             % Model 3
         elseif data_set == 11
-            test = [(ValdiationSet1(:,4)./ValdiationSet1_pop_size(:,1)),people_comparator_1]; %People
+            test = [(ValdiationSet1(:,3)./ValdiationSet1_pop_size(:,1)),people_comparator_1]; %People
             %Model 4
         elseif data_set == 12
-            test = [(ValdiationSet1(:,5)./ValdiationSet1_pop_size(:,1)),people_comparator_1]; %People
+            test = [(ValdiationSet1(:,4)./ValdiationSet1_pop_size(:,1)),people_comparator_1]; %People
             %Model 5
         elseif data_set == 13
-            test = [(ValdiationSet1(:,6)./ValdiationSet1_pop_size(:,1)),people_comparator_1]; %People
+            test = [(ValdiationSet1(:,5)./ValdiationSet1_pop_size(:,1)),people_comparator_1]; %People
             %Model 6
         elseif data_set == 14
-            test = [(ValdiationSet1(:,7)./ValdiationSet1_pop_size(:,1)),people_comparator_1]; %People
+            test = [(ValdiationSet1(:,6)./ValdiationSet1_pop_size(:,1)),people_comparator_1]; %People
         else
             display('wrong model assigment')
             break
